@@ -1,0 +1,12 @@
+{
+  "container.ciilus-fletching-table.fletching_table": "Fletching Table",
+  "screen.ciilus-fletching-table.ingredient_tooltip": "Place a potion or glowstone",
+  "screen.ciilus-fletching-table.arrow_tooltip": "Place ordinary arrows",
+  "screen.ciilus-fletching-table.effect_line": "Effects: %s",
+  "screen.ciilus-fletching-table.no_ingredient": "No ingredient",
+  "screen.ciilus-fletching-table.spectral": "Spectral arrows",
+  "screen.ciilus-fletching-table.craft_count": "Remaining: %s / %s",
+  "config.ciilus-fletching-table.title": "Fletching Table Settings",
+  "config.ciilus-fletching-table.description": "Base output for potions and glowstone dust",
+  "config.ciilus-fletching-table.base_output": "Base output: %s"
+}
