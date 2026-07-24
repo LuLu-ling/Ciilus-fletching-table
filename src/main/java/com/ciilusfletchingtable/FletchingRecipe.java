@@ -12,7 +12,7 @@ import net.minecraft.world.item.alchemy.PotionUtils;
 public final class FletchingRecipe {
 	public static final String FULL_DURATION_TAG = CiiluSFletchingTable.MOD_ID + ":full_duration";
 
-	private static final int GLOWSTONE_BLOCK_MULTIPLIER = 9;
+	private static final int GLOWSTONE_BLOCK_MULTIPLIER = 4;
 
 	private FletchingRecipe() {
 	}

@@ -33,7 +33,7 @@ class FletchingRecipeTest {
 	@Test
 	void glowstoneUsesRequestedOutputAmounts() {
 		assertEquals(8, FletchingRecipe.getMaximumOutput(new ItemStack(Items.GLOWSTONE_DUST)));
-		assertEquals(72, FletchingRecipe.getMaximumOutput(new ItemStack(Items.GLOWSTONE)));
+		assertEquals(32, FletchingRecipe.getMaximumOutput(new ItemStack(Items.GLOWSTONE)));
 		assertTrue(FletchingRecipe.createOutput(new ItemStack(Items.GLOWSTONE_DUST)).is(Items.SPECTRAL_ARROW));
 	}
 
@@ -56,7 +56,7 @@ class FletchingRecipeTest {
 
 		assertEquals(64, FletchingRecipe.getMaximumOutput(potion));
 		assertEquals(64, FletchingRecipe.getMaximumOutput(new ItemStack(Items.GLOWSTONE_DUST)));
-		assertEquals(576, FletchingRecipe.getMaximumOutput(new ItemStack(Items.GLOWSTONE)));
+		assertEquals(256, FletchingRecipe.getMaximumOutput(new ItemStack(Items.GLOWSTONE)));
 	}
 
 	@Test
