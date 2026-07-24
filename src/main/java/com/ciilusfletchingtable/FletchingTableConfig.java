@@ -69,6 +69,10 @@ public final class FletchingTableConfig {
 		baseOutput = clamp(value);
 	}
 
+	public static void reset() {
+		baseOutput = DEFAULT_BASE_OUTPUT;
+	}
+
 	private static int clamp(int value) {
 		return Math.max(MIN_BASE_OUTPUT, Math.min(MAX_BASE_OUTPUT, value));
 	}

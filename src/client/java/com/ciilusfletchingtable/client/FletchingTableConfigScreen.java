@@ -32,9 +32,13 @@ public final class FletchingTableConfigScreen extends Screen {
 			FletchingTableConfig.getBaseOutput()
 		));
 		this.addRenderableWidget(Button.builder(
+			Component.translatable("config.ciilus-fletching-table.reset"),
+			button -> this.baseOutputSlider.setOutput(FletchingTableConfig.DEFAULT_BASE_OUTPUT)
+		).bounds(centerX - 100, this.height / 2 + 14, 95, 20).build());
+		this.addRenderableWidget(Button.builder(
 			Component.translatable("gui.done"),
 			button -> this.saveAndClose()
-		).bounds(centerX - 100, this.height / 2 + 14, 200, 20).build());
+		).bounds(centerX + 5, this.height / 2 + 14, 95, 20).build());
 	}
 
 	@Override
@@ -83,6 +87,12 @@ public final class FletchingTableConfigScreen extends Screen {
 					/ (double) (FletchingTableConfig.MAX_BASE_OUTPUT - FletchingTableConfig.MIN_BASE_OUTPUT)
 			);
 			this.updateMessage();
+		}
+
+		private void setOutput(int output) {
+			this.value = (output - FletchingTableConfig.MIN_BASE_OUTPUT)
+				/ (double) (FletchingTableConfig.MAX_BASE_OUTPUT - FletchingTableConfig.MIN_BASE_OUTPUT);
+			this.applyValue();
 		}
 
 		private int getOutput() {

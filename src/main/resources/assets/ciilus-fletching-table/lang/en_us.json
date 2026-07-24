@@ -8,5 +8,6 @@
   "screen.ciilus-fletching-table.craft_count": "Remaining: %s / %s",
   "config.ciilus-fletching-table.title": "Fletching Table Settings",
   "config.ciilus-fletching-table.description": "Base output for potions and glowstone dust",
-  "config.ciilus-fletching-table.base_output": "Base output: %s"
+  "config.ciilus-fletching-table.base_output": "Base output: %s",
+  "config.ciilus-fletching-table.reset": "Reset"
 }

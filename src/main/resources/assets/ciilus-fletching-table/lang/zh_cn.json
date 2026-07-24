@@ -8,5 +8,6 @@
   "screen.ciilus-fletching-table.craft_count": "可制作：%s / %s",
   "config.ciilus-fletching-table.title": "制箭台设置",
   "config.ciilus-fletching-table.description": "药水和荧石粉的基础可制作数量",
-  "config.ciilus-fletching-table.base_output": "基础可制作：%s"
+  "config.ciilus-fletching-table.base_output": "基础可制作：%s",
+  "config.ciilus-fletching-table.reset": "重置"
 }
