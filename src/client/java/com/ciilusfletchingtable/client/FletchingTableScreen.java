@@ -3,6 +3,7 @@ package com.ciilusfletchingtable.client;
 import java.util.List;
 
 import com.ciilusfletchingtable.FletchingTableMenu;
+import com.ciilusfletchingtable.FletchingRecipe;
 
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
@@ -177,12 +178,16 @@ public class FletchingTableScreen extends AbstractContainerScreen<FletchingTable
 		}
 
 		MutableComponent summary = Component.empty();
+		float durationMultiplier = FletchingRecipe.getDurationMultiplier(result);
+		if (durationMultiplier <= 0.0F) {
+			durationMultiplier = FletchingRecipe.FULL_DURATION_MULTIPLIER;
+		}
 		int displayed = Math.min(2, effects.size());
 		for (int index = 0; index < displayed; index++) {
 			if (index > 0) {
 				summary.append(Component.literal(", "));
 			}
-			summary.append(effectName(effects.get(index)));
+			summary.append(effectName(effects.get(index), durationMultiplier));
 		}
 		if (effects.size() > displayed) {
 			summary.append(Component.literal(" +" + (effects.size() - displayed)));
@@ -190,7 +195,7 @@ public class FletchingTableScreen extends AbstractContainerScreen<FletchingTable
 		return summary;
 	}
 
-	private static Component effectName(MobEffectInstance effect) {
+	private static Component effectName(MobEffectInstance effect, float durationMultiplier) {
 		MutableComponent name = Component.translatable(effect.getDescriptionId());
 		if (effect.getAmplifier() > 0) {
 			name = Component.translatable(
@@ -200,8 +205,12 @@ public class FletchingTableScreen extends AbstractContainerScreen<FletchingTable
 			);
 		}
 
-		if (!effect.endsWithin(20)) {
-			name = Component.translatable("potion.withDuration", name, MobEffectUtil.formatDuration(effect, 1.0F));
+		if (FletchingRecipe.scaleDuration(effect.getDuration(), durationMultiplier) > 20) {
+			name = Component.translatable(
+				"potion.withDuration",
+				name,
+				MobEffectUtil.formatDuration(effect, durationMultiplier)
+			);
 		}
 
 		return name;

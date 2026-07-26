@@ -27,7 +27,7 @@ class FletchingRecipeTest {
 
 	@AfterEach
 	void resetConfig() {
-		FletchingTableConfig.setBaseOutput(FletchingTableConfig.DEFAULT_BASE_OUTPUT);
+		FletchingTableConfig.reset();
 	}
 
 	@Test
@@ -94,6 +94,27 @@ class FletchingRecipeTest {
 
 		assertEffectsMatch(potion, result);
 		assertTrue(FletchingRecipe.hasFullDuration(result));
+	}
+
+	@Test
+	void vanillaLikeCraftingUsesHalfOfTheInputPotionDuration() {
+		FletchingTableConfig.setVanillaLikeCrafting(true);
+		ItemStack potion = PotionUtils.setPotion(new ItemStack(Items.POTION), Potions.EMPTY);
+		PotionUtils.setCustomEffects(potion, List.of(new MobEffectInstance(MobEffects.POISON, 1235, 2)));
+
+		ItemStack result = FletchingRecipe.createOutput(potion);
+
+		assertEquals(
+			FletchingRecipe.VANILLA_LIKE_DURATION_MULTIPLIER,
+			FletchingRecipe.getDurationMultiplier(result)
+		);
+		MobEffectInstance scaledEffect = FletchingRecipe.scaleEffectDuration(
+			PotionUtils.getCustomEffects(result).get(0),
+			FletchingRecipe.getDurationMultiplier(result)
+		);
+		assertEquals(617, scaledEffect.getDuration());
+		assertEquals(2, scaledEffect.getAmplifier());
+		assertEffectsMatch(potion, result);
 	}
 
 	private static void assertEffectsMatch(ItemStack expected, ItemStack actual) {

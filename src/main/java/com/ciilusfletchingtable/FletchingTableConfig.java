@@ -16,15 +16,19 @@ public final class FletchingTableConfig {
 	public static final int DEFAULT_BASE_OUTPUT = 8;
 	public static final int MIN_BASE_OUTPUT = 1;
 	public static final int MAX_BASE_OUTPUT = 64;
+	public static final boolean DEFAULT_VANILLA_LIKE_CRAFTING = false;
 
 	private static final String BASE_OUTPUT_KEY = "base_output";
+	private static final String VANILLA_LIKE_CRAFTING_KEY = "vanilla_like_crafting";
 	private static final Gson GSON = new GsonBuilder().setPrettyPrinting().create();
 	private static int baseOutput = DEFAULT_BASE_OUTPUT;
+	private static boolean vanillaLikeCrafting = DEFAULT_VANILLA_LIKE_CRAFTING;
 
 	private FletchingTableConfig() {
 	}
 
 	public static void load() {
+		reset();
 		Path path = getPath();
 		if (!Files.exists(path)) {
 			save();
@@ -36,9 +40,12 @@ public final class FletchingTableConfig {
 			if (root != null && root.has(BASE_OUTPUT_KEY)) {
 				baseOutput = clamp(root.get(BASE_OUTPUT_KEY).getAsInt());
 			}
+			if (root != null && root.has(VANILLA_LIKE_CRAFTING_KEY)) {
+				vanillaLikeCrafting = root.get(VANILLA_LIKE_CRAFTING_KEY).getAsBoolean();
+			}
 		} catch (Exception exception) {
 			CiiluSFletchingTable.LOGGER.warn("Could not load fletching table config", exception);
-			baseOutput = DEFAULT_BASE_OUTPUT;
+			reset();
 		}
 	}
 
@@ -48,6 +55,7 @@ public final class FletchingTableConfig {
 			Files.createDirectories(path.getParent());
 			JsonObject root = new JsonObject();
 			root.addProperty(BASE_OUTPUT_KEY, baseOutput);
+			root.addProperty(VANILLA_LIKE_CRAFTING_KEY, vanillaLikeCrafting);
 			try (Writer writer = Files.newBufferedWriter(
 				path,
 				StandardOpenOption.CREATE,
@@ -69,8 +77,17 @@ public final class FletchingTableConfig {
 		baseOutput = clamp(value);
 	}
 
+	public static boolean isVanillaLikeCrafting() {
+		return vanillaLikeCrafting;
+	}
+
+	public static void setVanillaLikeCrafting(boolean value) {
+		vanillaLikeCrafting = value;
+	}
+
 	public static void reset() {
 		baseOutput = DEFAULT_BASE_OUTPUT;
+		vanillaLikeCrafting = DEFAULT_VANILLA_LIKE_CRAFTING;
 	}
 
 	private static int clamp(int value) {

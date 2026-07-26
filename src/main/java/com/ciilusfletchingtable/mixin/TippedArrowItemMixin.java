@@ -23,8 +23,9 @@ public abstract class TippedArrowItemMixin {
 	private void ciilusFletchingTable$showFullDuration(
 		ItemStack stack, @Nullable Level level, List<Component> tooltip, TooltipFlag flag, CallbackInfo callbackInfo
 	) {
-		if (FletchingRecipe.hasFullDuration(stack)) {
-			PotionUtils.addPotionTooltip(stack, tooltip, 1.0F);
+		float durationMultiplier = FletchingRecipe.getDurationMultiplier(stack);
+		if (durationMultiplier > 0.0F) {
+			PotionUtils.addPotionTooltip(stack, tooltip, durationMultiplier);
 			callbackInfo.cancel();
 		}
 	}

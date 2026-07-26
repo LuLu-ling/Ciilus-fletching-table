@@ -10,7 +10,11 @@ import net.minecraft.world.item.PotionItem;
 import net.minecraft.world.item.alchemy.PotionUtils;
 
 public final class FletchingRecipe {
+	/** Retained so arrows made by earlier releases keep their full-duration behavior. */
 	public static final String FULL_DURATION_TAG = CiiluSFletchingTable.MOD_ID + ":full_duration";
+	public static final String DURATION_MULTIPLIER_TAG = CiiluSFletchingTable.MOD_ID + ":duration_multiplier";
+	public static final float FULL_DURATION_MULTIPLIER = 1.0F;
+	public static final float VANILLA_LIKE_DURATION_MULTIPLIER = 0.5F;
 
 	private static final int GLOWSTONE_BLOCK_MULTIPLIER = 4;
 
@@ -61,12 +65,75 @@ public final class FletchingRecipe {
 			result.getOrCreateTag().putInt(PotionUtils.TAG_CUSTOM_POTION_COLOR, ingredientTag.getInt(PotionUtils.TAG_CUSTOM_POTION_COLOR));
 		}
 
-		result.getOrCreateTag().putBoolean(FULL_DURATION_TAG, true);
+		setDurationMultiplier(
+			result.getOrCreateTag(),
+			FletchingTableConfig.isVanillaLikeCrafting()
+				? VANILLA_LIKE_DURATION_MULTIPLIER
+				: FULL_DURATION_MULTIPLIER
+		);
 		return result;
 	}
 
 	public static boolean hasFullDuration(ItemStack stack) {
-		CompoundTag tag = stack.getTag();
-		return tag != null && tag.getBoolean(FULL_DURATION_TAG);
+		return Float.compare(getDurationMultiplier(stack), FULL_DURATION_MULTIPLIER) == 0;
+	}
+
+	public static float getDurationMultiplier(ItemStack stack) {
+		return getDurationMultiplier(stack.getTag());
+	}
+
+	public static float getDurationMultiplier(CompoundTag tag) {
+		if (tag == null) {
+			return 0.0F;
+		}
+
+		if (tag.contains(DURATION_MULTIPLIER_TAG, CompoundTag.TAG_ANY_NUMERIC)) {
+			float multiplier = tag.getFloat(DURATION_MULTIPLIER_TAG);
+			if (Float.isFinite(multiplier) && multiplier > 0.0F) {
+				return Math.min(multiplier, FULL_DURATION_MULTIPLIER);
+			}
+		}
+
+		return tag.getBoolean(FULL_DURATION_TAG) ? FULL_DURATION_MULTIPLIER : 0.0F;
+	}
+
+	public static void setDurationMultiplier(CompoundTag tag, float multiplier) {
+		if (!Float.isFinite(multiplier) || multiplier <= 0.0F) {
+			tag.remove(DURATION_MULTIPLIER_TAG);
+			tag.remove(FULL_DURATION_TAG);
+			return;
+		}
+
+		float normalized = Math.min(multiplier, FULL_DURATION_MULTIPLIER);
+		tag.putFloat(DURATION_MULTIPLIER_TAG, normalized);
+		if (Float.compare(normalized, FULL_DURATION_MULTIPLIER) == 0) {
+			tag.putBoolean(FULL_DURATION_TAG, true);
+		} else {
+			tag.remove(FULL_DURATION_TAG);
+		}
+	}
+
+	public static int scaleDuration(int duration, float multiplier) {
+		if (duration <= 0 || multiplier <= 0.0F) {
+			return duration;
+		}
+
+		return Math.max(1, (int) (duration * multiplier));
+	}
+
+	public static MobEffectInstance scaleEffectDuration(MobEffectInstance effect, float multiplier) {
+		int duration = scaleDuration(effect.getDuration(), multiplier);
+		if (duration == effect.getDuration()) {
+			return effect;
+		}
+
+		return new MobEffectInstance(
+			effect.getEffect(),
+			duration,
+			effect.getAmplifier(),
+			effect.isAmbient(),
+			effect.isVisible(),
+			effect.showIcon()
+		);
 	}
 }
