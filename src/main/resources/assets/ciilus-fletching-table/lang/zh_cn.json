@@ -6,10 +6,9 @@
   "screen.ciilus-fletching-table.no_ingredient": "未装载药水或荧石",
   "screen.ciilus-fletching-table.spectral": "光灵箭",
   "screen.ciilus-fletching-table.craft_count": "可制作：%s / %s",
-  "config.ciilus-fletching-table.title": "制箭台设置",
-  "config.ciilus-fletching-table.description": "调整制箭台的合成规则",
-  "config.ciilus-fletching-table.base_output": "基础可制作：%s",
-  "config.ciilus-fletching-table.vanilla_like_crafting": "与原版一致的合成：%s",
-  "config.ciilus-fletching-table.vanilla_like_crafting.description": "开启后，药水箭持续时间为输入药水的 1/2",
-  "config.ciilus-fletching-table.reset": "重置"
+  "text.autoconfig.ciilus-fletching-table.title": "制箭台设置",
+  "text.autoconfig.ciilus-fletching-table.option.baseOutput": "基础可制作数量",
+  "text.autoconfig.ciilus-fletching-table.option.baseOutput.@Tooltip": "一份药水或荧石粉可为制箭台装载的箭矢数量",
+  "text.autoconfig.ciilus-fletching-table.option.vanillaLikeCrafting": "与原版一致的合成",
+  "text.autoconfig.ciilus-fletching-table.option.vanillaLikeCrafting.@Tooltip": "开启后，药水箭持续时间为输入药水的 1/2"
 }
