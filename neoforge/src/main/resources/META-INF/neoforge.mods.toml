@@ -1,0 +1,42 @@
+modLoader = "javafml"
+loaderVersion = "[4,)"
+license = "AGPL-3.0-only"
+
+[[mods]]
+modId = "ciilusfletchingtable"
+version = "${version}"
+displayName = "Ciilu's Fletching Table"
+description = "Adds a server-authoritative arrow workshop to the vanilla fletching table."
+authors = "LuLu-ling"
+logoFile = "assets/ciilusfletchingtable/icon.png"
+
+[[dependencies.ciilusfletchingtable]]
+modId = "neoforge"
+type = "required"
+versionRange = "[21.1.77,)"
+ordering = "NONE"
+side = "BOTH"
+
+[[dependencies.ciilusfletchingtable]]
+modId = "minecraft"
+type = "required"
+versionRange = "[1.21.1,1.22)"
+ordering = "NONE"
+side = "BOTH"
+
+[[dependencies.ciilusfletchingtable]]
+modId = "architectury"
+type = "required"
+versionRange = "[13.0.8,)"
+ordering = "NONE"
+side = "BOTH"
+
+[[dependencies.ciilusfletchingtable]]
+modId = "cloth_config"
+type = "required"
+versionRange = "[15.0.140,)"
+ordering = "NONE"
+side = "BOTH"
+
+[[mixins]]
+config = "ciilusfletchingtable.mixins.json"
